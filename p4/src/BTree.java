@@ -1,4 +1,8 @@
 
+/**
+ * @author James Brooks
+ *
+ */
 public class BTree {
 	private int degree;
 	private int sequenceLength;
@@ -22,5 +26,22 @@ public class BTree {
 	private int findOptimumDegree() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public TreeObject search(BTreeNode node, TreeObject targetKey) {
+		//TODO
+		return null;
+	}
+	
+	public void insert(TreeObject key) {
+		//TODO
+	}
+	
+	private void splitChild(BTreeNode currentNode, int childIndex, BTreeNode childNode) {
+		//TODO
+	}
+	
+	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
+		//TODO
 	}
 }
