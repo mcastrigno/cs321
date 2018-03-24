@@ -37,4 +37,11 @@ public class BTreeNode {
 		return parent;
 	}
 
+	public TreeObject keyAt(int i) {
+		return objects.get(i);
+	}
+
+	public int getChildAt(int i) {
+		return child[i]; //not sure if array is the correct approach
+	}
 }

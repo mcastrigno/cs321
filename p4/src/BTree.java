@@ -38,9 +38,32 @@ public class BTree {
 		return optimumDegree;
 	}
 	
+	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes
+	/**
+	 * Searches for the given key in the given node. Returns the
+	 * tree object if it is found. Returns null if the key is not
+	 * in the tree.
+	 * 
+	 * @param node Node to be searched
+	 * @param targetKey Key to be searched for
+	 * @return TreeObject if the target key is found
+	 * @return null if the target key is not in the tree
+	 */
 	public TreeObject search(BTreeNode node, TreeObject targetKey) {
-		//TODO
-		return null;
+		int i = 0;
+		while(i < node.getObjectCount() && targetKey.getData() > node.keyAt(i).getData()) {
+			i++;
+		}
+		if(i < node.getObjectCount() && targetKey.getData() == node.keyAt(i).getData()) {
+			return node.keyAt(i); //This return may need to be changed to something else. I don't know if TreeObject is what we want
+		}
+		else if(!node.isLeaf()) {
+			return null;
+		}
+		else {
+			node = storage.nodeRead(node.getChildAt(i));
+			return search(node, targetKey);
+		}
 	}
 	
 	public void insert(TreeObject key) {
