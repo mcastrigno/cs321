@@ -23,9 +23,19 @@ public class BTree {
 		storage.nodeWrite(root);
 	}
 
+	/**
+	 * Estimates the optimum degree for the BTree assuming
+	 * the disk block size is 4096 bytes. Taken from
+	 * class notes
+	 * 
+	 * @return optimum degree for BTree
+	 */
 	private int findOptimumDegree() {
-		// TODO Auto-generated method stub
-		return 0;
+		int optimumDegree = 2;
+		while((5 + (((2*optimumDegree) - 1) * 12) + (((2*optimumDegree) - 1) * 4)) <= 4096){
+			optimumDegree++;
+		}
+		return optimumDegree;
 	}
 	
 	public TreeObject search(BTreeNode node, TreeObject targetKey) {
