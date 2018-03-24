@@ -44,4 +44,8 @@ public class BTreeNode {
 	public int getChildAt(int i) {
 		return child[i]; //not sure if array is the correct approach
 	}
+	
+	public void setChildAt(int i, BTreeNode child) {
+		this.child[i] = child.getLocation(); //???? the child array needs to allocated somewhere
+	}
 }

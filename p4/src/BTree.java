@@ -67,7 +67,18 @@ public class BTree {
 	}
 	
 	public void insert(TreeObject key) {
-		//TODO
+		BTreeNode oldRoot = root;
+		if(root.getObjectCount() == ((2*degree) - 1)) {
+			BTreeNode node = new BTreeNode();
+			root = node;
+			root.setLeaf(false);
+			root.setChildAt(0, oldRoot);
+			splitChild(root, 0, oldRoot);
+			insertNonfull(root, key);
+		}
+		else {
+			insertNonfull(root, key);
+		}
 	}
 	
 	private void splitChild(BTreeNode currentNode, int childIndex, BTreeNode childNode) {
