@@ -7,14 +7,14 @@ import java.util.LinkedList;
 public class BTreeNode {
 	private int objectCount;
 	private int location; //byte offset of this node in file
-	private boolean isLeaf;
+	private boolean leaf;
 	private LinkedList<TreeObject> objects; //Maybe array is better???
 	private int parent; //pointer to byte offset location of parent in file
 	private int[] child; //pointers to byte offset locations of children in file
 	
 	
-	public BTreeNode(LinkedList<TreeObject> objects) {
-		this.objects = objects;
+	public BTreeNode() {
+		this.objectCount = 0;
 	}
 	
 	public int getObjectCount() {
@@ -26,7 +26,11 @@ public class BTreeNode {
 	}
 	
 	public boolean isLeaf() {
-		return isLeaf;
+		return leaf;
+	}
+	
+	public void setLeaf(boolean isLeaf) {
+		leaf = isLeaf;
 	}
 	
 	public int getParent() {
