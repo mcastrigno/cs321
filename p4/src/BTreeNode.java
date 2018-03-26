@@ -1,4 +1,5 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
+//import java.util.LinkedList;
 
 /**
  * @author James Brooks
@@ -8,7 +9,8 @@ public class BTreeNode {
 	private int objectCount;
 	private int location; //byte offset of this node in file
 	private boolean leaf;
-	private LinkedList<TreeObject> objects; //Maybe array is better???
+//	private LinkedList<TreeObject> objects; //Maybe array is better???
+	private ArrayList<TreeObject> objects;  //Array list was suggest by Yeh and the tutor
 	private int parent; //pointer to byte offset location of parent in file
 	private int[] child; //pointers to byte offset locations of children in file
 	
