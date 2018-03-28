@@ -52,6 +52,26 @@ public class BTreeNode {
 		return childPointers.get(i);
 	}
 	
+	/**
+	 * 
+	 * @param i location in node to put object.
+	 * 			When this operation adds an object we use an add operation.
+	 * 			If i is in current range then the set operation is used
+	 */
+	public void putObject(int i, TreeObject newObject) {
+		if (i == objects.size()) {
+			objects.add(newObject);
+		}else if ((i <= 1) && (i < objects.size())) {
+			objects.set(i, newObject);
+		}
+		else {
+			System.out.println("Invalid operation, attempted to add object at index : " + i + " but number of nodes is : " + objects.size());
+		}
+		
+	}
+	
+	
+	
 	public boolean isLeaf() {
 		return leaf;
 	}

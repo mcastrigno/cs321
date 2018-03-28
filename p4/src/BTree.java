@@ -76,7 +76,7 @@ public class BTree {
 			root = node;
 			root.setLeaf(false);
 			root.setChildAt(1, oldRoot);
-			splitChild(root, 1, oldRoot);
+			splitChild(root, 1);
 			insertNonfull(root, key);
 		}
 		else {
@@ -87,25 +87,31 @@ public class BTree {
 	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
 		int i = currentNode.getObjectCount();
 		if(currentNode.isLeaf()) {
-			while(){
+			while((i >= 1) && (key.getData() < currentNode.keyAt(i).getData())){
+				currentNode.putObject((i+1), currentNode.keyAt(i));
+				i--;
 			}
-			//other statements	
+			currentNode.putObject(i+1, key);
+			//pseudo code say to increase number of nodes by one but that happens automatically in the putObjects method
+			storage.nodeWrite(currentNode);
 		}else {
-			while(){
-
+			while((i >= 1) && (key.getData() < currentNode.keyAt(i).getData())){
+				i--;	
 			}
 			//other statements
-
+			i++;
+			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
 			//other statements
-			if() {
-
-				if() {
+			if(currentNodeChildAtI.getObjectCount() == ((2*degree) - 1)) {
+				splitChild(currentNode, i);
+				if(key.getData() > currentNode.keyAt(i).getData()) {
+					i++;
 				}
 			}
-			//other statements	  
+			insertNonfull(currentNodeChildAtI ,key );
 		}
 	}
-	private void splitChild(BTreeNode currentNode, int childIndex, BTreeNode childNode) {
+	private void splitChild(BTreeNode currentNode, int childIndex) {
 		//TODO
 	}
 	
