@@ -31,8 +31,7 @@ public class BTreeNode {
 		objects.add(dummyTreeObject);    	//this is a dummy object so we can index from one
 		childPointers.add(0);  				//this is a dummy childPointer so we can index from one 
 		
-		//call to create space for the node
-		//the result of the call will return the pointer to this newly created node
+
 	}
 	public int numOfObjects() {
 		return objects.size() - 1;
