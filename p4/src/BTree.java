@@ -8,7 +8,7 @@ public class BTree {
 	private int sequenceLength;
 	private BTreeNode root;
 	//private Storage storage;			//For use when real storage is ready
-	private TreeStorage storage;
+	public TreeStorage storage;
 	private int numOfTreeNodes = 0;
 	
 	//Creating a tree requires creating a file structure on disk.
@@ -115,5 +115,7 @@ public class BTree {
 		//TODO
 	}
 	
-
+	public int getNumOfTreeNodes() {
+		return numOfTreeNodes;
+	}
 }

@@ -21,13 +21,13 @@ public class BTreeNode {
 	private int parentPointer; //pointer to byte offset location of parent in file
 	
 	private int[] child; //pointers to byte offset locations of children in file
-	private ArrayList<Integer> childPointers; // May be best to use ArrayList so the size can expand and contract automatically
+	private ArrayList<Integer> childPointers = new ArrayList<Integer>(); // May be best to use ArrayList so the size can expand and contract automatically
 												
 	private TreeObject dummyTreeObject = new TreeObject(0) ;
 	
 	public BTreeNode(int nodePointer) {
 		this.nodePointer = nodePointer;
-		this.objects = new ArrayList<>();
+		this.objects = new ArrayList<TreeObject>();
 		objects.add(dummyTreeObject);    	//this is a dummy object so we can index from one
 		childPointers.add(0);  				//this is a dummy childPointer so we can index from one 
 		

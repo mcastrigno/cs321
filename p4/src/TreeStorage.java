@@ -26,7 +26,7 @@ public class TreeStorage {
 	// nodePointer to a file location by a simple multiplication of 
 	// Node block size times the nodePointer
 	
-	private ArrayList<BTreeNode> treeNodes;  	
+	private ArrayList<BTreeNode> treeNodes = new ArrayList<BTreeNode>();  	
 	
 	public TreeStorage(int degree, int sequenceLength) {
 		this.degree = degree;
