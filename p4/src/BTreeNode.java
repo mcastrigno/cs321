@@ -61,7 +61,7 @@ public class BTreeNode {
 	public void putObject(int i, TreeObject newObject) {
 		if (i == objects.size()) {
 			objects.add(newObject);
-		}else if ((i <= 1) && (i < objects.size())) {
+		}else if ((i >= 1) && (i < objects.size())) {
 			objects.set(i, newObject);
 		}
 		else {
@@ -90,9 +90,9 @@ public class BTreeNode {
 		return objects.get(i);
 	}
 	
-	public int getObjectCount() {
+/*	public int getObjectCount() {
 		return objectCount;
-	}
+	}*/
 
 	public int getLocation() {
 		return location;
@@ -111,7 +111,7 @@ public class BTreeNode {
 		for (int i= 1; i < objects.size(); i++) {  // Deliberately skipping the first one, its a dummy
 			returnString = returnString + "Object [" + i + "]" + " has key value of " + key(i) + "\n" ;
 		}
-		returnString = returnString +"/n";
+		returnString = returnString +"\n";
 		for (int i = 1; i < childPointers.size(); i++) {
 			returnString = returnString + "ChildPointer [" + i + "]" + " is " +childPointers.get(i) +"\n";
 		}

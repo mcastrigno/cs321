@@ -24,7 +24,7 @@ public class TestBtree {
 		testTree1.insert(ObjectB);
 		testTree1.insert(ObjectC);
 		
-		for(int i = 1; i < testTree1.getNumOfTreeNodes(); i++) {
+		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
 			System.out.println(testTree1.storage.nodeRead(i).toString());
 		}
 

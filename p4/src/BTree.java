@@ -23,11 +23,10 @@ public class BTree {
 	
 	public BTree(int degree, int sequenceLength) {	
 		this.sequenceLength = sequenceLength;								//Once this constructor is called 
-		TreeStorage storage = new TreeStorage(degree, sequenceLength);		//There is storage allocated with
+		this.storage = new TreeStorage(degree, sequenceLength);		//There is storage allocated with
 																			//one node in it.
 //		Storage storage = new TreeStorage(degree, sequenceLength);			//Once the "real" disk storage is ready
-		
-		numOfTreeNodes++;													 
+														 
 		root = allocateNode();
 		root.setLeaf(true);
 	}
@@ -37,7 +36,7 @@ public class BTree {
 		numOfTreeNodes++;
 		newNode = new BTreeNode(numOfTreeNodes);
 		int treeStorageNumOfNodes = storage.nodeAdd(newNode);
-		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + "and the TreeStorage number of nodes is: " + numOfTreeNodes);
+		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
 		return newNode;
 		
 	}
@@ -54,10 +53,10 @@ public class BTree {
 	 */
 	public TreeObject search(BTreeNode node, TreeObject targetKey) {
 		int i = 1;
-		while(i < node.getObjectCount() && targetKey.getData() > node.keyAt(i).getData()) {
+		while(i < node.numOfObjects() && targetKey.getData() > node.keyAt(i).getData()) {
 			i++;
 		}
-		if(i < node.getObjectCount() && targetKey.getData() == node.keyAt(i).getData()) {
+		if(i < node.numOfObjects() && targetKey.getData() == node.keyAt(i).getData()) {
 			return node.keyAt(i); //This return may need to be changed to something else. I don't know if TreeObject is what we want
 		}
 		else if(!node.isLeaf()) {
@@ -70,6 +69,7 @@ public class BTree {
 	}
 	
 	public void insert(TreeObject key) {
+		//if(numOfTreeNodes == 0) createRoot(key); break;
 		BTreeNode oldRoot = root;
 		if(root.numOfObjects() == ((2*degree) - 1)) {
 			BTreeNode node = allocateNode();  
@@ -85,7 +85,7 @@ public class BTree {
 	}
 	
 	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
-		int i = currentNode.getObjectCount();
+		int i = currentNode.numOfObjects();
 		if(currentNode.isLeaf()) {
 			while((i >= 1) && (key.getData() < currentNode.keyAt(i).getData())){
 				currentNode.putObject((i+1), currentNode.keyAt(i));
@@ -102,7 +102,7 @@ public class BTree {
 			i++;
 			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
 			//other statements
-			if(currentNodeChildAtI.getObjectCount() == ((2*degree) - 1)) {
+			if(currentNodeChildAtI.numOfObjects() == ((2*degree) - 1)) {
 				splitChild(currentNode, i);
 				if(key.getData() > currentNode.keyAt(i).getData()) {
 					i++;

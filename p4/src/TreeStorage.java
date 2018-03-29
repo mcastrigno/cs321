@@ -46,6 +46,7 @@ public class TreeStorage {
 	public int nodeAdd(BTreeNode node) {
 		treeNodes.add(node);
 		return numOfNodes();
+	
 		
 	}
 	public BTreeNode nodeRead(int nodePointer) {
