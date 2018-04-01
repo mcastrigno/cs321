@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class GeneBankCreateBTree {
 
@@ -10,6 +13,7 @@ public class GeneBankCreateBTree {
 		boolean useCache = (Integer.parseInt(args[0]) == 1);
 		boolean useDebug;
 		int degree = Integer.parseInt(args[1]);
+		String fileName = args[2];
 		sequenceLength = Integer.parseInt(args[3]);
 		int cacheSize, debugLevel;
 
@@ -32,6 +36,37 @@ public class GeneBankCreateBTree {
 		}
 
 		newBTree = new BTree(degree, sequenceLength);
+
+		/////////////////////////////////////////
+		//GeneBank File Parsing//////////////////
+		/////////////////////////////////////////
+		try {
+		    String currentToken = "";
+			String currentSegment = "";
+			String currentSubstring = "";
+			GeneSequenceEncoder encoder = new GeneSequenceEncoder();
+			TreeObject obj;
+			Scanner scan = new Scanner(new File(fileName));
+			while(scan.hasNextLine()) {		
+				if(scan.nextLine().contains("ORIGIN")) {
+					while(scan.hasNext()) {	
+						currentToken = scan.next();
+						if(!currentToken.equals("//") && !currentToken.matches(".*\\d+.*")) { //regex to check for integer
+							currentSegment = currentSegment + currentToken.toLowerCase();
+						}
+					}
+				}
+				for(int i = 0; i <= (currentSegment.length() - sequenceLength); i++) {	
+					currentSubstring = currentSegment.substring(i, (i + sequenceLength));
+					if(!currentSubstring.contains("n")) {
+						obj = new TreeObject(encoder.encode(currentSubstring));
+						newBTree.insert(obj);
+					}
+				}
+			}
+		} catch(FileNotFoundException e) {
+			System.out.println("Error: File not found!");
+		}
 	}
 
 	private static void checkUsage(String[] args) {
@@ -51,8 +86,8 @@ public class GeneBankCreateBTree {
 					printUsage();
 				}
 			}
-			// checks that the sequence length is not less than 1
-			if (Integer.parseInt(args[3]) < 1) {
+			// checks that the sequence length is not less than 1 or greater than 31
+			if (Integer.parseInt(args[3]) < 1 || Integer.parseInt(args[3]) > 31) {
 				printUsage();
 			}
 			// checks if cache option is 1

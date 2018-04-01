@@ -38,9 +38,9 @@ public class BTree {
 		newNode = new BTreeNode(numOfTreeNodes);
 		int treeStorageNumOfNodes = storage.nodeAdd(newNode);
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + "and the TreeStorage number of nodes is: " + numOfTreeNodes);
-		return newNode;
-		
+		return newNode;	
 	}
+	
 	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes
 	/**
 	 * Searches for the given key in the given node. Returns the

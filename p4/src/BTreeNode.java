@@ -30,9 +30,8 @@ public class BTreeNode {
 		this.objects = new ArrayList<TreeObject>();
 		objects.add(dummyTreeObject);    	//this is a dummy object so we can index from one
 		childPointers.add(0);  				//this is a dummy childPointer so we can index from one 
-		
-
 	}
+	
 	public int numOfObjects() {
 		return objects.size() - 1;
 	}
