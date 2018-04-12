@@ -5,12 +5,13 @@ public class TestBtree {
 		
 		//Test Case # 1 insert 3 objects in a tree of degree 2
 		
-		long A,B,C;
+		long A,B,C, D;
 		A = 3;
 		B = 1;
 		C = 5;
+		D = 2;
 		
-		int degree = 2;
+		int degree = 5;
 		int sequenceLength = 2;
 		TreeObject ObjectA, ObjectB, ObjectC;
 		
