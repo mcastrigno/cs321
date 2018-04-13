@@ -36,14 +36,12 @@ public class BTree {
 		numOfTreeNodes++;
 		newNode = new BTreeNode(numOfTreeNodes);
 		int treeStorageNumOfNodes = storage.nodeAdd(newNode);
-<<<<<<< HEAD
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
 		return newNode;
 		
-=======
-		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + "and the TreeStorage number of nodes is: " + numOfTreeNodes);
-		return newNode;	
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
+
+			
+
 	}
 	
 	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes

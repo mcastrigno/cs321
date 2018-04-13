@@ -13,17 +13,19 @@ public class TestBtree {
 		
 		int degree = 5;
 		int sequenceLength = 2;
-		TreeObject ObjectA, ObjectB, ObjectC;
+		TreeObject ObjectA, ObjectB, ObjectC, ObjectD;
 		
 		ObjectA = new TreeObject(A);
 		ObjectB = new TreeObject(B);
 		ObjectC = new TreeObject(C);
+		ObjectD = new TreeObject(D);
 		
 		BTree testTree1 = new BTree(degree, sequenceLength);
 		
 		testTree1.insert(ObjectA); 
 		testTree1.insert(ObjectB);
 		testTree1.insert(ObjectC);
+		testTree1.insert(ObjectD);
 		
 		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
 			System.out.println(testTree1.storage.nodeRead(i).toString());
