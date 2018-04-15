@@ -125,11 +125,13 @@ public class BTree {
 		//book say to set number of z objects to degree - 1 but I don't think that
 		//makes sense here since the node has an arrayList of objects
 		for (int j = 1; j <= (degree -1); j++)
-			z.putObject(j, y.removeKeyObjectAt(j+degree));
+			z.putObject(j, y.removeKeyObjectAt(1+degree));		//using 1 instead of j because as we remove the arraylist shrinks
+//		z.putObject(j, y.removeKeyObjectAt(j+degree));
+
 		
 		if (!y.isLeaf()){										//only comes into play if node is not a leaf 
 			for (int j = 1; j <= (degree); j++) 				//you move the child pointers over to the new half of the split
-				z.setChildPointer(j, y.removeChildPointer(1+degree));			//using 1 instead of j because as we remove the arraylist shrinks
+				z.setChildPointer(j, y.removeChildPointer(1+degree));	//using 1 instead of j because as we remove the arraylist shrinks
 //				z.setChildPointer(j, y.getChildPointer(j+degree));			
 
 			//book say to set number of y object  to degree - 1 but I don't think that

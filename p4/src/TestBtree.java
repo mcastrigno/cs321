@@ -21,8 +21,8 @@ public class TestBtree {
 		M = 13;
 		N = 14;
 		
-		int degree = 2;
-		int sequenceLength = 2;
+		int degree = 3;
+		int sequenceLength = 3;
 		TreeObject ObjectA, ObjectB, ObjectC, ObjectD, ObjectE, ObjectF, ObjectG, ObjectH, 
 				   ObjectI, ObjectJ, ObjectK, ObjectL, ObjectM, ObjectN;
 		
