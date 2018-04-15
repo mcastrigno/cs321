@@ -45,6 +45,9 @@ public class BTreeNode {
 	public int getChildPointer(int i) {
 		return childPointers.get(i);
 	}
+	public int removeChildPointer(int i) {
+		return childPointers.remove(i);
+	}
 	
 	public void setChildPointer(int i, int childPointer) {
 		if (i == childPointers.size()) {

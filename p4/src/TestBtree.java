@@ -5,7 +5,7 @@ public class TestBtree {
 		
 		//Test Case # 1 insert 3 objects in a tree of degree 2
 		
-		long A,B,C, D, E, F, G, H, I;
+		long A,B,C, D, E, F, G, H, I, J;
 		A = 8;
 		B = 1;
 		C = 5;
@@ -15,10 +15,12 @@ public class TestBtree {
 		G = 3;
 		H = 4;
 		I = 9;
+		J = 10;
 		
 		int degree = 2;
 		int sequenceLength = 2;
-		TreeObject ObjectA, ObjectB, ObjectC, ObjectD, ObjectE, ObjectF, ObjectG, ObjectH, ObjectI;
+		TreeObject ObjectA, ObjectB, ObjectC, ObjectD, ObjectE, ObjectF, ObjectG, ObjectH, 
+				   ObjectI, ObjectJ;
 		
 		ObjectA = new TreeObject(A);
 		ObjectB = new TreeObject(B);
@@ -29,6 +31,7 @@ public class TestBtree {
 		ObjectG = new TreeObject(G);
 		ObjectH = new TreeObject(H);
 		ObjectI = new TreeObject(I);
+		ObjectJ = new TreeObject(J);
 		
 		BTree testTree1 = new BTree(degree, sequenceLength);
 		
@@ -87,6 +90,13 @@ public class TestBtree {
 			System.out.println(testTree1.storage.nodeRead(i).toString());
 		}
 		System.out.println("----------------------------------------------------\n");
+		
+		testTree1.insert(ObjectJ);
+		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
+			System.out.println(testTree1.storage.nodeRead(i).toString());
+		}
+		System.out.println("----------------------------------------------------\n");
+		
 	}
 
 }
