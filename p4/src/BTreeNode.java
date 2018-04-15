@@ -71,7 +71,7 @@ public class BTreeNode {
 			objects.set(i, newObject);
 		}
 		else {
-			System.out.println("Invalid operation, attempted to add object at index : " + i + " but number of nodes is : " + objects.size());
+			System.out.println("Invalid operation, attempted to add object at index : " + i + " of node at pointer " +  getNodePointer()  +" but number of nodes is : " + objects.size());
 		}
 		
 	}

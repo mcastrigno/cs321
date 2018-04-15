@@ -99,7 +99,7 @@ public class BTree {
 				i--;
 			}
 			currentNode.putObject(i+1, key);
-			//pseudo code say to increase number of nodes by one but that happens automatically in the putObjects method
+			//pseudo code says to increase number of nodes by one but that happens automatically in the putObjects method
 			storage.nodeWrite(currentNode);
 		}else {
 			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
@@ -115,7 +115,7 @@ public class BTree {
 					i++;
 				}
 			}
-			insertNonfull(currentNodeChildAtI ,key );
+			insertNonfull(storage.nodeRead(currentNode.getChildPointer(i)) ,key );
 		}
 	}
 	private void splitChild(BTreeNode currentNode, int childIndex) {
@@ -140,7 +140,8 @@ public class BTree {
 		currentNode.setChildPointer(childIndex+1, z.getNodePointer());				//update the child pointer of parent 
 		
 		for (int j = currentNode.numOfObjects(); j >= childIndex; j--)
-			currentNode.putObject(j+1, currentNode.removeKeyObjectAt(j));
+			currentNode.putObject(j+1, currentNode.keyObjectAt(j));  				//using method that does not delete because so num of objects is not 
+																					//reduced
 	
 		currentNode.putObject(childIndex, y.removeKeyObjectAt(degree));
 		//book say to set number of x objects  to number of x objects + 1 but I don't think that
