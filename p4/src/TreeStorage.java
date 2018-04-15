@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class TreeStorage {
 
-	private int degree;
-	private BTreeNode dummyNode = new BTreeNode(0);
+	private int degree = 2;
+	private BTreeNode dummyNode = new BTreeNode(0 , degree);
 	
 	// In this emulation the nodes are kept in an arraylist. 
 	// The pointers are just indexes into the arraylist.

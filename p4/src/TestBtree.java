@@ -11,7 +11,7 @@ public class TestBtree {
 		C = 5;
 		D = 2;
 		
-		int degree = 5;
+		int degree = 2;
 		int sequenceLength = 2;
 		TreeObject ObjectA, ObjectB, ObjectC, ObjectD;
 		
@@ -23,8 +23,20 @@ public class TestBtree {
 		BTree testTree1 = new BTree(degree, sequenceLength);
 		
 		testTree1.insert(ObjectA); 
+		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
+			System.out.println(testTree1.storage.nodeRead(i).toString());
+		}
 		testTree1.insert(ObjectB);
+		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
+			System.out.println(testTree1.storage.nodeRead(i).toString());
+		}
+		
+		
 		testTree1.insert(ObjectC);
+		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
+			System.out.println(testTree1.storage.nodeRead(i).toString());
+		}
+		
 		testTree1.insert(ObjectD);
 		
 		for(int i = 1; i <= testTree1.getNumOfTreeNodes(); i++) {
