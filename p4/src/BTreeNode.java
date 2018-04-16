@@ -106,7 +106,7 @@ public class BTreeNode {
 	public String toString() {
 		String returnString = "Node located at pointer "+ nodePointer + " has " + numOfObjects() + " objects and " + numOfChildren() + " children.\n";
 		for (int i= 1; i < objects.size(); i++) {  // Deliberately skipping the first one, its a dummy
-			returnString = returnString + "Object [" + i + "]" + " has key value of " + key(i) + "\n" ;
+			returnString = returnString + "Object [" + i + "]" + " has key value of " + key(i) + " and frequency of " + keyObjectAt(i).getFrequency() + "\n" ;
 		}
 		returnString = returnString +"\n";
 		for (int i = 1; i < childPointers.size(); i++) {

@@ -92,13 +92,25 @@ public class BTree {
 			insertNonfull(root, key);
 		}
 	}
-	
 	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
 		int i = currentNode.numOfObjects();
 		if(currentNode.isLeaf()) {
-			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
-				currentNode.putObject((i+1), currentNode.keyObjectAt(i));
+
+			boolean duplicate = false;
+			while((i >= 1) && (key.getData() <= currentNode.keyObjectAt(i).getData())){
+				if(key.getData() ==currentNode.keyObjectAt(i).getData()) {
+					currentNode.keyObjectAt(i).incrementFrequency();
+					duplicate = true;
+				}
 				i--;
+			}
+
+			i = currentNode.numOfObjects();
+			if(!duplicate) {
+				while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
+					currentNode.putObject((i+1), currentNode.keyObjectAt(i));
+					i--;
+				}
 			}
 			currentNode.putObject(i+1, key);
 			//pseudo code says to increase number of nodes by one but that happens automatically in the putObjects method
@@ -106,8 +118,7 @@ public class BTree {
 		}else {
 			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
 				i--;	
-			}
-
+			}			
 			i++;
 			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
 
@@ -119,7 +130,35 @@ public class BTree {
 			}
 			insertNonfull(storage.nodeRead(currentNode.getChildPointer(i)) ,key );
 		}
-	}
+	}	
+// Non frequency setting insert method
+//	
+//	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
+//		int i = currentNode.numOfObjects();
+//		if(currentNode.isLeaf()) {
+//			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
+//				currentNode.putObject((i+1), currentNode.keyObjectAt(i));
+//				i--;
+//			}
+//			currentNode.putObject(i+1, key);
+//			//pseudo code says to increase number of nodes by one but that happens automatically in the putObjects method
+//			storage.nodeWrite(currentNode);
+//		}else {
+//			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
+//				i--;	
+//			}			
+//			i++;
+//			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
+//
+//			if(currentNodeChildAtI.numOfObjects() == ((2*degree) - 1)) {
+//				splitChild(currentNode, i);
+//				if(key.getData() > currentNode.keyObjectAt(i).getData()) {
+//					i++;
+//				}
+//			}
+//			insertNonfull(storage.nodeRead(currentNode.getChildPointer(i)) ,key );
+//		}
+//	}
 	private void splitChild(BTreeNode currentNode, int childIndex) {
 		BTreeNode z = allocateNode();
 		BTreeNode y = storage.nodeRead(currentNode.getChildPointer(childIndex));

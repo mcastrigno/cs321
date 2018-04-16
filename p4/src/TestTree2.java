@@ -12,7 +12,7 @@ public class TestTree2 {
 		C = 5;
 		D = 2;
 		E = 6;
-		F = 7;
+		F = 3;
 		G = 3;
 		H = 4;
 		I = 9;
@@ -22,8 +22,8 @@ public class TestTree2 {
 		M = 13;
 		N = 14;
 		
-		int degree = 3;
-		int sequenceLength = 3;
+		int degree = 2;
+		int sequenceLength = 2;
 		TreeObject ObjectA, ObjectB, ObjectC, ObjectD, ObjectE, ObjectF, ObjectG, ObjectH, 
 				   ObjectI, ObjectJ, ObjectK, ObjectL, ObjectM, ObjectN;
 		
