@@ -14,7 +14,7 @@ public class BTreeNode {
 	private int nodePointer; 				//Consistent but descriptive name	
 	private boolean leaf =  false;  		//default value 
 	private ArrayList<TreeObject> objects;  //Array list was suggest by Yeh and the tutor
-	private int parentPointer; 				//pointer to byte offset location of parent in file
+//	private int parentPointer; 				//pointer to byte offset location of parent in file
 
 	private List<Integer> childPointers = new ArrayList<>();	//Makes an ArrayList of ints instead of Integers
 
@@ -38,9 +38,9 @@ public class BTreeNode {
 		return nodePointer;
 	}
 	
-	public int getParentPointer() {
-		return parentPointer;
-	}
+//	public int getParentPointer() {
+//		return parentPointer;
+//	}
 	
 	public int getChildPointer(int i) {
 		return childPointers.get(i);
@@ -112,6 +112,7 @@ public class BTreeNode {
 		for (int i = 1; i < childPointers.size(); i++) {
 			returnString = returnString + "ChildPointer [" + i + "]" + " is " +childPointers.get(i) +"\n";
 		}
+		returnString += "\n";
 		return returnString;
 	}
 	

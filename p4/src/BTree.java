@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author James Brooks
@@ -157,5 +159,44 @@ public class BTree {
 	
 	public int getNumOfTreeNodes() {
 		return numOfTreeNodes;
+	}
+	
+	
+	
+	public String toString() {
+		List<Integer> pointersToNodesToPrint = new ArrayList<>();
+	
+		
+		String returnString ="\nRoot Node\n";
+		BTreeNode currentNode = root;
+		int i = currentNode.getNodePointer();
+		returnString += currentNode.toString();
+		for (int j=1; j <= storage.nodeRead(i).numOfChildren(); j++) {
+			
+			returnString += storage.nodeRead(currentNode.getChildPointer(j)).toString();	
+			pointersToNodesToPrint.add(currentNode.getChildPointer(j));
+		}
+		returnString += childPrint(pointersToNodesToPrint, returnString);
+
+		return returnString;
+	}
+
+	public String childPrint(List<Integer> pointersToNodesToPrint, String returnString) {
+		List<Integer> pointersToNodesChildrenToPrint = new ArrayList<>();
+		for (int k=0; k < pointersToNodesToPrint.size(); k++) {
+			BTreeNode currentNode = storage.nodeRead(pointersToNodesToPrint.get(k));
+			returnString += currentNode.toString();
+			for (int j= 1; j<=currentNode.numOfChildren(); j++) {
+				pointersToNodesChildrenToPrint.add(currentNode.getChildPointer(j));
+				returnString += storage.nodeRead(currentNode.getChildPointer(j)).toString();
+				if(pointersToNodesChildrenToPrint.size()!=0) {		
+					childPrint(pointersToNodesChildrenToPrint, returnString);		
+				}else {
+					return returnString;
+				}
+			}
+	
+		}
+		return returnString;
 	}
 }
