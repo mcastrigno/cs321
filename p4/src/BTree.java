@@ -160,43 +160,39 @@ public class BTree {
 	public int getNumOfTreeNodes() {
 		return numOfTreeNodes;
 	}
-	
-	
-	
+
+
+	StringBuilder outputString = new StringBuilder();
 	public String toString() {
+		outputString.setLength(0);
+
 		List<Integer> pointersToNodesToPrint = new ArrayList<>();
-	
-		
 		String returnString ="\nRoot Node\n";
 		BTreeNode currentNode = root;
 		int i = currentNode.getNodePointer();
 		returnString += currentNode.toString();
-		for (int j=1; j <= storage.nodeRead(i).numOfChildren(); j++) {
-			
-			returnString += storage.nodeRead(currentNode.getChildPointer(j)).toString();	
+		for (int j=1; j <= storage.nodeRead(i).numOfChildren(); j++) {		
 			pointersToNodesToPrint.add(currentNode.getChildPointer(j));
 		}
-		returnString += childPrint(pointersToNodesToPrint, returnString);
-
-		return returnString;
+		childPrint(pointersToNodesToPrint);
+		return (returnString  +  outputString);
 	}
 
-	public String childPrint(List<Integer> pointersToNodesToPrint, String returnString) {
+	public void childPrint(List<Integer> pointersToNodesToPrint) {
 		List<Integer> pointersToNodesChildrenToPrint = new ArrayList<>();
+		BTreeNode currentNode = null;
 		for (int k=0; k < pointersToNodesToPrint.size(); k++) {
-			BTreeNode currentNode = storage.nodeRead(pointersToNodesToPrint.get(k));
-			returnString += currentNode.toString();
+			currentNode = storage.nodeRead(pointersToNodesToPrint.get(k));
+			outputString.append(currentNode.toString());
 			for (int j= 1; j<=currentNode.numOfChildren(); j++) {
 				pointersToNodesChildrenToPrint.add(currentNode.getChildPointer(j));
-				returnString += storage.nodeRead(currentNode.getChildPointer(j)).toString();
-				if(pointersToNodesChildrenToPrint.size()!=0) {		
-					childPrint(pointersToNodesChildrenToPrint, returnString);		
-				}else {
-					return returnString;
-				}
 			}
-	
 		}
-		return returnString;
+		if(pointersToNodesChildrenToPrint.size()!=0) {		
+			childPrint(pointersToNodesChildrenToPrint);		
+		}else {
+			return;
+		}
+		return;
 	}
 }
