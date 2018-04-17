@@ -6,7 +6,7 @@ public class GeneBankCreateBTree {
 
 	static int sequenceLength;
 	static BTree newBTree;
-
+	static String gbkFilename = "";
 	public static void main(String[] args) {
 
 		checkUsage(args);
@@ -34,8 +34,8 @@ public class GeneBankCreateBTree {
 			System.out.println("Invalid degree of 1, fix code to reject at command line");
 			System.exit(1);
 		}
-
-		newBTree = new BTree(degree, sequenceLength);
+	
+		newBTree = new BTree(degree, sequenceLength, gbkFilename);
 
 		/////////////////////////////////////////
 		//GeneBank File Parsing//////////////////

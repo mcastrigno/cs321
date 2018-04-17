@@ -26,11 +26,12 @@ public class BTree {
 	//will always have the same location on disk
 	
 	public BTree(int degree, int sequenceLength, String gbkFilename) {	
-		this.sequenceLength = sequenceLength;							//Once this constructor is called 
-		this.storage = new TreeStorage(degree, sequenceLength);			//There is storage allocated with
-		this.degree = degree;											//one node in it.
-		this.gbkFilename = gbkFilename;
-//		Storage storage = new TreeStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
+		this.sequenceLength = sequenceLength;
+		this.gbkFilename = gbkFilename;											//Once this constructor is called 
+		this.storage = new TreeStorage(gbkFilename, degree, sequenceLength);	//There is storage allocated with
+		this.degree = degree;													//one node in it.
+		
+//		this.storage = new DiskStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
 														 
 		root = allocateNode();
 		root.setLeaf(true);
