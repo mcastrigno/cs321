@@ -43,10 +43,12 @@ public class BTree {
 		treeStorageNumOfNodes = storage.nodeAdd(newNode);				//
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
 		return newNode;
-		
-
-			
-
+	}
+	/**
+	 * method to write the root to disk when you are done inserting objects
+	 */
+	public void writeRoot() {
+		storage.nodeWrite(root);
 	}
 	
 	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes
