@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 //import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author James Brooks
@@ -8,48 +9,57 @@ import java.util.ArrayList;
  *
  */
 public class BTreeNode {
-	private int objectCount;
-	
-	private int location; //byte offset of this node in file
-	private int nodePointer; //Consistent but descriptive name
-	
-	//private int degree;
-	
-	private boolean leaf =  false;  //default value 
-//	private LinkedList<TreeObject> objects; //Maybe array is better???	
+	private GeneSequenceEncoder encoder = new GeneSequenceEncoder();
+	private int location; 					//byte offset of this node in file
+	private int nodePointer; 				//Consistent but descriptive name	
+	private boolean leaf =  false;  		//default value 
 	private ArrayList<TreeObject> objects;  //Array list was suggest by Yeh and the tutor
-	private int parentPointer; //pointer to byte offset location of parent in file
-	
-	private int[] child; //pointers to byte offset locations of children in file
-	private ArrayList<Integer> childPointers = new ArrayList<Integer>(); // May be best to use ArrayList so the size can expand and contract automatically
-												
+//	private int parentPointer; 				//pointer to byte offset location of parent in file
+
+	private List<Integer> childPointers = new ArrayList<>();	//Makes an ArrayList of ints instead of Integers
+
 	private TreeObject dummyTreeObject = new TreeObject(0) ;
 	
-	public BTreeNode(int nodePointer) {
+	public BTreeNode(int nodePointer) {		//degree is not used - delete it?
 		this.nodePointer = nodePointer;
 		this.objects = new ArrayList<TreeObject>();
-		objects.add(dummyTreeObject);    	//this is a dummy object so we can index from one
-		childPointers.add(0);  				//this is a dummy childPointer so we can index from one 
+		objects.add(dummyTreeObject);    				//this is a dummy object so we can index from one
+		childPointers.add(0,0);							//add dummy to take up position 0
 	}
 	
 	public int numOfObjects() {
 		return objects.size() - 1;
 	}
 	public int numOfChildren() {
-		return childPointers.size() - 1;
+		return childPointers.size() -1;
 	}
 	
 	public int getNodePointer() {
 		return nodePointer;
 	}
 	
-	public int getParentPointer() {
-		return parentPointer;
-	}
+//	public int getParentPointer() {
+//		return parentPointer;
+//	}
 	
 	public int getChildPointer(int i) {
 		return childPointers.get(i);
 	}
+	public int removeChildPointer(int i) {
+		return childPointers.remove(i);
+	}
+	
+	public void setChildPointer(int i, int childPointer) {
+		if (i == childPointers.size()) {
+			childPointers.add(childPointer);
+		}else if ((i >= 1) && (i < childPointers.size())) {
+			childPointers.set(i, childPointer);
+		}
+		else {
+			System.out.println("Invalid operation, attempted to add pointer at index : " + i + " but number of children is : " + childPointers.size());
+		}
+	
+}
 	
 	/**
 	 * 
@@ -60,11 +70,11 @@ public class BTreeNode {
 	public void putObject(int i, TreeObject newObject) {
 		if (i == objects.size()) {
 			objects.add(newObject);
-		}else if ((i <= 1) && (i < objects.size())) {
+		}else if ((i >= 1) && (i < objects.size())) {
 			objects.set(i, newObject);
 		}
 		else {
-			System.out.println("Invalid operation, attempted to add object at index : " + i + " but number of nodes is : " + objects.size());
+			System.out.println("Invalid operation, attempted to add object at index : " + i + " of node at pointer " +  getNodePointer()  +" but number of nodes is : " + objects.size());
 		}
 		
 	}
@@ -83,39 +93,34 @@ public class BTreeNode {
 	public long key(int i) {
 		return objects.get(i).getData();
 	}
-	
-	//not sure about this, our objects are more than the key, this returns the object not the key of the object
-	public TreeObject keyAt(int i) {
+
+
+	public TreeObject keyObjectAt(int i) {
 		return objects.get(i);
 	}
 	
-	public int getObjectCount() {
-		return objectCount;
-	}
-
-	public int getLocation() {
-		return location;
-	}
-	
-	public int getChildAt(int i) {
-		return child[i]; //not sure if array is the correct approach
-	}
-	
-	public void setChildAt(int i, BTreeNode child) {
-		this.child[i] = child.getLocation(); //???? the child array needs to allocated somewhere
+	public TreeObject removeKeyObjectAt(int i) {
+		return objects.remove(i);
 	}
 	
 	public String toString() {
-		String returnString = " Node located at pointer "+ nodePointer + " has " + numOfObjects() + " objects and " + numOfChildren() + " children.\n";
+		String returnString = "Node located at pointer "+ nodePointer + " has " + numOfObjects() + " objects and " + numOfChildren() + " children.\n";
 		for (int i= 1; i < objects.size(); i++) {  // Deliberately skipping the first one, its a dummy
-			returnString = returnString + "Object [" + i + "]" + " has key value of " + key(i) + "\n" ;
+			returnString = returnString + "Object [" + i + "]" + " has key value of " + key(i) + " and frequency of " + keyObjectAt(i).getFrequency() + "\n" ;
 		}
-		returnString = returnString +"/n";
+		returnString = returnString +"\n";
 		for (int i = 1; i < childPointers.size(); i++) {
 			returnString = returnString + "ChildPointer [" + i + "]" + " is " +childPointers.get(i) +"\n";
 		}
+		returnString += "\n";
 		return returnString;
 	}
+	public String toDnaString() {
+		String returnString = "";
+		for (int i= 1; i < objects.size(); i++) {
+			returnString += (encoder.decode(key(i)) +" " + keyObjectAt(i).getFrequency() +"\n");
+		}
+		return returnString;
 	
-	
+	}	
 }

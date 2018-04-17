@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class TreeStorage {
 
-	private int degree;
-	private BTreeNode dummyNode = new BTreeNode(0);
+	private int degree = 2;
+	private BTreeNode dummyNode = new BTreeNode(0 );
 	
 	// In this emulation the nodes are kept in an arraylist. 
 	// The pointers are just indexes into the arraylist.
@@ -28,7 +28,7 @@ public class TreeStorage {
 	
 	private ArrayList<BTreeNode> treeNodes = new ArrayList<BTreeNode>();  	
 	
-	public TreeStorage(int degree, int sequenceLength) {
+	public TreeStorage(String gbkFilename, int degree, int sequenceLength) {
 		this.degree = degree;
 		treeNodes.add(dummyNode);   // can comment this needed to start a index 0 instead of one
 		//degreeWrite(degree);
@@ -46,6 +46,7 @@ public class TreeStorage {
 	public int nodeAdd(BTreeNode node) {
 		treeNodes.add(node);
 		return numOfNodes();
+	
 		
 	}
 	public BTreeNode nodeRead(int nodePointer) {
