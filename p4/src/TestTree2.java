@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Matthew Castrigno
+ *
+ */
 
 public class TestTree2 {
 
@@ -26,6 +30,7 @@ public class TestTree2 {
 		int sequenceLength = 2;
 		TreeObject ObjectA, ObjectB, ObjectC, ObjectD, ObjectE, ObjectF, ObjectG, ObjectH, 
 				   ObjectI, ObjectJ, ObjectK, ObjectL, ObjectM, ObjectN;
+		String testFilename = "testFilename";
 		
 		ObjectA = new TreeObject(A);
 		ObjectB = new TreeObject(B);
@@ -42,7 +47,7 @@ public class TestTree2 {
 		ObjectM = new TreeObject(M);
 		ObjectN = new TreeObject(N);
 		
-		BTree testTree1 = new BTree(degree, sequenceLength);
+		BTree testTree1 = new BTree(degree, sequenceLength, testFilename);
 		
 		testTree1.insert(ObjectA); 
 		System.out.println(testTree1.toString());			

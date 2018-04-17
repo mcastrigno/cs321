@@ -14,7 +14,7 @@ public class BTree {
 	public TreeStorage storage;
 	private int numOfTreeNodes = 0;
 	private int treeStorageNumOfNodes = 0; // Used to track that the number of nodes in storage matches the number of nodes the tree object has
-	
+	private String gbkFilename ="";
 	//Creating a tree requires creating a file structure on disk.
 	//TreeStorage class emulates that file.
 	//The actual disk version of the class is called Storage.
@@ -25,11 +25,11 @@ public class BTree {
 	//should never change, what node points to it will, but a node
 	//will always have the same location on disk
 	
-	public BTree(int degree, int sequenceLength) {	
+	public BTree(int degree, int sequenceLength, String gbkFilename) {	
 		this.sequenceLength = sequenceLength;							//Once this constructor is called 
 		this.storage = new TreeStorage(degree, sequenceLength);			//There is storage allocated with
 		this.degree = degree;											//one node in it.
-																			
+		this.gbkFilename = gbkFilename;
 //		Storage storage = new TreeStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
 														 
 		root = allocateNode();
