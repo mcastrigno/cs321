@@ -39,7 +39,7 @@ public class BTree {
 	public BTreeNode allocateNode() {
 		BTreeNode newNode;
 		numOfTreeNodes++;
-		newNode = new BTreeNode(numOfTreeNodes,  degree);
+		newNode = new BTreeNode(numOfTreeNodes);
 		treeStorageNumOfNodes = storage.nodeAdd(newNode);				//
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
 		return newNode;

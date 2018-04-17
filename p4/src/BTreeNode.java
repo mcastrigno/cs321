@@ -20,7 +20,7 @@ public class BTreeNode {
 
 	private TreeObject dummyTreeObject = new TreeObject(0) ;
 	
-	public BTreeNode(int nodePointer, int degree) {
+	public BTreeNode(int nodePointer) {		//degree is not used - delete it?
 		this.nodePointer = nodePointer;
 		this.objects = new ArrayList<TreeObject>();
 		objects.add(dummyTreeObject);    				//this is a dummy object so we can index from one
