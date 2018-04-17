@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author James Brooks
@@ -5,11 +7,13 @@
  */
 public class BTree {
 	private int degree;
-	private int sequenceLength;
+	private int sequenceLength;			//Even though the BTree does not need this info it may be good to store in case the user 
+										//attempts to search a sequence length different than what was stored as an error check
 	private BTreeNode root;
 	//private Storage storage;			//For use when real storage is ready
 	public TreeStorage storage;
 	private int numOfTreeNodes = 0;
+	private int treeStorageNumOfNodes = 0; // Used to track that the number of nodes in storage matches the number of nodes the tree object has
 	
 	//Creating a tree requires creating a file structure on disk.
 	//TreeStorage class emulates that file.
@@ -22,12 +26,12 @@ public class BTree {
 	//will always have the same location on disk
 	
 	public BTree(int degree, int sequenceLength) {	
-		this.sequenceLength = sequenceLength;								//Once this constructor is called 
-		TreeStorage storage = new TreeStorage(degree, sequenceLength);		//There is storage allocated with
-																			//one node in it.
-//		Storage storage = new TreeStorage(degree, sequenceLength);			//Once the "real" disk storage is ready
-		
-		numOfTreeNodes++;													 
+		this.sequenceLength = sequenceLength;							//Once this constructor is called 
+		this.storage = new TreeStorage(degree, sequenceLength);			//There is storage allocated with
+		this.degree = degree;											//one node in it.
+																			
+//		Storage storage = new TreeStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
+														 
 		root = allocateNode();
 		root.setLeaf(true);
 	}
@@ -35,10 +39,14 @@ public class BTree {
 	public BTreeNode allocateNode() {
 		BTreeNode newNode;
 		numOfTreeNodes++;
-		newNode = new BTreeNode(numOfTreeNodes);
-		int treeStorageNumOfNodes = storage.nodeAdd(newNode);
-		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + "and the TreeStorage number of nodes is: " + numOfTreeNodes);
-		return newNode;	
+		newNode = new BTreeNode(numOfTreeNodes,  degree);
+		treeStorageNumOfNodes = storage.nodeAdd(newNode);				//
+		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
+		return newNode;
+		
+
+			
+
 	}
 	
 	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes
@@ -54,11 +62,11 @@ public class BTree {
 	 */
 	public TreeObject search(BTreeNode node, TreeObject targetKey) {
 		int i = 1;
-		while(i < node.getObjectCount() && targetKey.getData() > node.keyAt(i).getData()) {
+		while(i < node.numOfObjects() && targetKey.getData() > node.keyObjectAt(i).getData()) {
 			i++;
 		}
-		if(i < node.getObjectCount() && targetKey.getData() == node.keyAt(i).getData()) {
-			return node.keyAt(i); //This return may need to be changed to something else. I don't know if TreeObject is what we want
+		if(i < node.numOfObjects() && targetKey.getData() == node.keyObjectAt(i).getData()) {
+			return node.keyObjectAt(i); //This return may need to be changed to something else. I don't know if TreeObject is what we want
 		}
 		else if(!node.isLeaf()) {
 			return null;
@@ -70,12 +78,13 @@ public class BTree {
 	}
 	
 	public void insert(TreeObject key) {
+		//if(numOfTreeNodes == 0) createRoot(key); break;
 		BTreeNode oldRoot = root;
 		if(root.numOfObjects() == ((2*degree) - 1)) {
 			BTreeNode node = allocateNode();  
 			root = node;
 			root.setLeaf(false);
-			root.setChildAt(1, oldRoot);
+			root.setChildPointer(1, oldRoot.getNodePointer());
 			splitChild(root, 1);
 			insertNonfull(root, key);
 		}
@@ -85,37 +94,109 @@ public class BTree {
 	}
 	
 	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
-		int i = currentNode.getObjectCount();
+		int i = currentNode.numOfObjects();
 		if(currentNode.isLeaf()) {
-			while((i >= 1) && (key.getData() < currentNode.keyAt(i).getData())){
-				currentNode.putObject((i+1), currentNode.keyAt(i));
+			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
+				currentNode.putObject((i+1), currentNode.keyObjectAt(i));
 				i--;
 			}
 			currentNode.putObject(i+1, key);
-			//pseudo code say to increase number of nodes by one but that happens automatically in the putObjects method
+			//pseudo code says to increase number of nodes by one but that happens automatically in the putObjects method
 			storage.nodeWrite(currentNode);
 		}else {
-			while((i >= 1) && (key.getData() < currentNode.keyAt(i).getData())){
+			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
 				i--;	
 			}
-			//other statements
+
 			i++;
 			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
-			//other statements
-			if(currentNodeChildAtI.getObjectCount() == ((2*degree) - 1)) {
+
+			if(currentNodeChildAtI.numOfObjects() == ((2*degree) - 1)) {
 				splitChild(currentNode, i);
-				if(key.getData() > currentNode.keyAt(i).getData()) {
+				if(key.getData() > currentNode.keyObjectAt(i).getData()) {
 					i++;
 				}
 			}
-			insertNonfull(currentNodeChildAtI ,key );
+			insertNonfull(storage.nodeRead(currentNode.getChildPointer(i)) ,key );
 		}
 	}
 	private void splitChild(BTreeNode currentNode, int childIndex) {
-		//TODO
-	}
+		BTreeNode z = allocateNode();
+		BTreeNode y = storage.nodeRead(currentNode.getChildPointer(childIndex));
+		z.setLeaf(y.isLeaf());
+		//book say to set number of z objects to degree - 1 but I don't think that
+		//makes sense here since the node has an arrayList of objects
+		for (int j = 1; j <= (degree -1); j++)
+			z.putObject(j, y.removeKeyObjectAt(1+degree));		//using 1 instead of j because as we remove the arraylist shrinks
+//		z.putObject(j, y.removeKeyObjectAt(j+degree));
+
+		
+		if (!y.isLeaf()){										//only comes into play if node is not a leaf 
+			for (int j = 1; j <= (degree); j++) 				//you move the child pointers over to the new half of the split
+				z.setChildPointer(j, y.removeChildPointer(1+degree));	//using 1 instead of j because as we remove the arraylist shrinks
+//				z.setChildPointer(j, y.getChildPointer(j+degree));			
+
+			//book say to set number of y object  to degree - 1 but I don't think that
+		//makes sense here since the node has an arrayList of objects	
+		}
+		
+		for(int j = currentNode.numOfObjects() + 1; j >= childIndex +1; j--) 
+			currentNode.setChildPointer(j+1, currentNode.getChildPointer(j));
+		
+		currentNode.setChildPointer(childIndex+1, z.getNodePointer());				//update the child pointer of parent 
+		
+		for (int j = currentNode.numOfObjects(); j >= childIndex; j--)
+			currentNode.putObject(j+1, currentNode.keyObjectAt(j));  				//using method that does not delete because so num of objects is not 
+																					//reduced
+	
+		currentNode.putObject(childIndex, y.removeKeyObjectAt(degree));
+		//book say to set number of x objects  to number of x objects + 1 but I don't think that
+		//makes sense here since the node has an arrayList of objects
+		storage.nodeWrite(currentNode);
+		storage.nodeWrite(y);
+		storage.nodeWrite(z);
+	}		
 	
 	public int getNumOfTreeNodes() {
 		return numOfTreeNodes;
+	}
+
+
+	StringBuilder outputString = new StringBuilder();
+	public String toString() {
+		outputString.setLength(0);
+
+		List<Integer> pointersToNodesToPrint = new ArrayList<>();
+		String returnString ="\nRoot Node\n";
+		BTreeNode currentNode = root;
+		int i = currentNode.getNodePointer();
+		returnString += currentNode.toString();
+		for (int j=1; j <= storage.nodeRead(i).numOfChildren(); j++) {		
+			pointersToNodesToPrint.add(currentNode.getChildPointer(j));
+		}
+		childPrint(pointersToNodesToPrint);
+		return (returnString  +  outputString);
+	}
+
+	public void childPrint(List<Integer> pointersToNodesToPrint) {
+		List<Integer> pointersToNodesChildrenToPrint = new ArrayList<>();
+		BTreeNode currentNode = null;
+		for (int k=0; k < pointersToNodesToPrint.size(); k++) {
+			currentNode = storage.nodeRead(pointersToNodesToPrint.get(k));
+			outputString.append(currentNode.toString());
+			for (int j= 1; j<=currentNode.numOfChildren(); j++) {
+				pointersToNodesChildrenToPrint.add(currentNode.getChildPointer(j));
+			}
+		}
+		if(pointersToNodesChildrenToPrint.size()!=0) {		
+			childPrint(pointersToNodesChildrenToPrint);		
+		}else {
+			return;
+		}
+		return;
+	}
+
+	public BTreeNode getRoot() {
+		return root;
 	}
 }
