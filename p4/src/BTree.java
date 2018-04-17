@@ -204,7 +204,6 @@ public class BTree {
 	StringBuilder outputString = new StringBuilder();
 	public String toString() {
 		outputString.setLength(0);
-
 		List<Integer> pointersToNodesToPrint = new ArrayList<>();
 		String returnString ="\nRoot Node\n";
 		BTreeNode currentNode = root;
@@ -229,8 +228,38 @@ public class BTree {
 		}
 		if(pointersToNodesChildrenToPrint.size()!=0) {		
 			childPrint(pointersToNodesChildrenToPrint);		
-		}else {
-			return;
+		}
+		return;
+	}
+	
+	StringBuilder dnaString = new StringBuilder();
+	public String dnaDump () {
+		dnaString.setLength(0);
+		List<Integer> dnaToPrint = new ArrayList<>();
+		BTreeNode currentNode = root;
+		int i = currentNode.getNodePointer();
+		dnaString.append(currentNode.toDnaString());
+		for (int j=1; j <= storage.nodeRead(i).numOfChildren(); j++) {			
+			dnaToPrint.add(currentNode.getChildPointer(j));
+		}
+		dnaChildPrint(dnaToPrint);
+		return (""+dnaString);
+		
+	}
+	
+	public void dnaChildPrint(List<Integer> dnaToPrint ) {
+		List<Integer> dnaChildrenToPrint = new ArrayList<>();
+		BTreeNode currentNode = null;
+		for (int k=0; k < dnaToPrint.size(); k++) {
+			currentNode = storage.nodeRead(dnaToPrint.get(k));
+			dnaString.append(currentNode.toDnaString());
+			for (int j= 1; j<=currentNode.numOfChildren(); j++) {
+				dnaChildrenToPrint.add(currentNode.getChildPointer(j));
+			}
+		}
+		if(dnaChildrenToPrint.size()!=0) {		
+			dnaChildPrint(dnaChildrenToPrint);		
+	
 		}
 		return;
 	}

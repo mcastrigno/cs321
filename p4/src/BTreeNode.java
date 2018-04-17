@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 public class BTreeNode {
-	
+	private GeneSequenceEncoder encoder = new GeneSequenceEncoder();
 	private int location; 					//byte offset of this node in file
 	private int nodePointer; 				//Consistent but descriptive name	
 	private boolean leaf =  false;  		//default value 
@@ -115,6 +115,12 @@ public class BTreeNode {
 		returnString += "\n";
 		return returnString;
 	}
+	public String toDnaString() {
+		String returnString = "";
+		for (int i= 1; i < objects.size(); i++) {
+			returnString += (encoder.decode(key(i)) +" " + keyObjectAt(i).getFrequency() +"\n");
+		}
+		return returnString;
 	
-	
+	}	
 }

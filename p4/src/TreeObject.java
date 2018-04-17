@@ -7,6 +7,7 @@ public class TreeObject {
 	private long data;
 	private int frequency;
 
+
 	public TreeObject(long data) {
 		this.data = data;
 		frequency = 1;
@@ -31,5 +32,6 @@ public class TreeObject {
 		String returnString = Long.toString(data) + " " + Integer.toString(frequency);
 		return returnString;
 	}
+
 
 }

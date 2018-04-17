@@ -103,6 +103,13 @@ public class TestTree2 {
 		System.out.println("----------------------------------------------------\n");	
 		
 		System.out.println(testTree1.toString());
+		System.out.println(testTree1.dnaDump());
+		
+		GeneSequenceEncoder encoder = new GeneSequenceEncoder();
+		
+		for (long i = 0; i< 14; i++) {
+			System.out.println("For the long : "+ i +" the decoder outputs "+ encoder.decode(i));
+		}
 	}
 
 }
