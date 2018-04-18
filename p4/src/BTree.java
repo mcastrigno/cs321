@@ -14,11 +14,8 @@ public class BTree {
 	public TreeStorage storage;
 	private int numOfTreeNodes = 0;
 	private int treeStorageNumOfNodes = 0; // Used to track that the number of nodes in storage matches the number of nodes the tree object has
-<<<<<<< HEAD
-	
-=======
+
 	private String gbkFilename ="";
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
 	//Creating a tree requires creating a file structure on disk.
 	//TreeStorage class emulates that file.
 	//The actual disk version of the class is called Storage.
@@ -29,14 +26,12 @@ public class BTree {
 	//should never change, what node points to it will, but a node
 	//will always have the same location on disk
 	
-<<<<<<< HEAD
 	public BTree(int degree, int sequenceLength) {	
 		this.sequenceLength = sequenceLength;							//Once this constructor is called 
 		this.storage = new TreeStorage(degree, sequenceLength);			//There is storage allocated with
 		this.degree = degree;											//one node in it.
 																			
 //		Storage storage = new TreeStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
-=======
 	public BTree(int degree, int sequenceLength, String gbkFilename) {	
 		this.sequenceLength = sequenceLength;
 		this.gbkFilename = gbkFilename;											//Once this constructor is called 
@@ -44,7 +39,6 @@ public class BTree {
 		this.degree = degree;													//one node in it.
 		
 //		this.storage = new DiskStorage(degree, sequenceLength);		//Once the "real" disk storage is ready
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
 														 
 		root = allocateNode();
 		root.setLeaf(true);
@@ -53,16 +47,11 @@ public class BTree {
 	public BTreeNode allocateNode() {
 		BTreeNode newNode;
 		numOfTreeNodes++;
-<<<<<<< HEAD
-		newNode = new BTreeNode(numOfTreeNodes,  degree);
+		newNode = new BTreeNode(numOfTreeNodes, degree);
 		treeStorageNumOfNodes = storage.nodeAdd(newNode);				//
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
 		return newNode;
-		
 
-			
-
-=======
 		newNode = new BTreeNode(numOfTreeNodes);
 		treeStorageNumOfNodes = storage.nodeAdd(newNode);				//
 		System.out.println("The Tree number of Nodes is :" + treeStorageNumOfNodes + " and the TreeStorage number of nodes is: " + numOfTreeNodes);
@@ -73,7 +62,6 @@ public class BTree {
 	 */
 	public void writeRoot() {
 		storage.nodeWrite(root);
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
 	}
 	
 	//the indexing on this method may not be correct. I change to 0-based index from 1-based in the class notes
@@ -122,18 +110,14 @@ public class BTree {
 	private void insertNonfull(BTreeNode currentNode, TreeObject key) {
 		int i = currentNode.numOfObjects();
 		if(currentNode.isLeaf()) {
-<<<<<<< HEAD
 			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
 				currentNode.putObject((i+1), currentNode.keyObjectAt(i));
-=======
-
 			boolean duplicate = false;
 			while((i >= 1) && (key.getData() <= currentNode.keyObjectAt(i).getData())){
 				if(key.getData() ==currentNode.keyObjectAt(i).getData()) {
 					currentNode.keyObjectAt(i).incrementFrequency();
 					duplicate = true;
 				}
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
 				i--;
 			}
 
@@ -147,15 +131,13 @@ public class BTree {
 			currentNode.putObject(i+1, key);
 			//pseudo code says to increase number of nodes by one but that happens automatically in the putObjects method
 			storage.nodeWrite(currentNode);
-		}else {
+		}
+		}
+			else {
 			while((i >= 1) && (key.getData() < currentNode.keyObjectAt(i).getData())){
 				i--;	
-<<<<<<< HEAD
 			}
-
-=======
-			}			
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
+						
 			i++;
 			BTreeNode currentNodeChildAtI = storage.nodeRead(currentNode.getChildPointer(i)); // get the child indexed at i
 
@@ -241,8 +223,6 @@ public class BTree {
 	StringBuilder outputString = new StringBuilder();
 	public String toString() {
 		outputString.setLength(0);
-<<<<<<< HEAD
-
 		List<Integer> pointersToNodesToPrint = new ArrayList<>();
 		String returnString ="\nRoot Node\n";
 		BTreeNode currentNode = root;
@@ -275,7 +255,6 @@ public class BTree {
 
 	public BTreeNode getRoot() {
 		return root;
-=======
 		List<Integer> pointersToNodesToPrint = new ArrayList<>();
 		String returnString ="\nRoot Node\n";
 		BTreeNode currentNode = root;
@@ -334,6 +313,5 @@ public class BTree {
 	
 		}
 		return;
->>>>>>> branch 'dev' of https://github.com/mcastrigno/cs321.git
 	}
 }
