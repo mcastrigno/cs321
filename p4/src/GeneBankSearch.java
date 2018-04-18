@@ -64,7 +64,7 @@ public class GeneBankSearch {
 			
 			while(scan.hasNext()) {
 				String query = scan.nextLine(); //sequence to search for
-				TreeObject q = tree.keyObjectAt(SequenceEncoder.encode(query));
+				Long q = SequenceEncoder.encode(query);
 				//System.out.println(q);
 				//String converted = SequenceEncoder.encode(q, sequence);
 				//System.out.println(converted);
