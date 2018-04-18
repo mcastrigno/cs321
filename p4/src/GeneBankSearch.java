@@ -33,8 +33,10 @@ public class GeneBankSearch {
 			cacheSize = Integer.parseInt(args[3]);
 		}
 		//Set debug level if there are 5 arguments
-		if(args.length == 5)
+		if(args.length == 5) {
 			debugLevel = Integer.parseInt(args[4]);
+		}
+		//build a BTree to test my search and use Matt TestBTree for base and use James Strings for DATA in it
 		//find degree and sequence length
 		String seq = "", deg = "";
 		//finds the degree of the btree file
